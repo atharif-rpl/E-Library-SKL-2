@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,24 +11,29 @@
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
-        
+
         .transition-all {
             transition: all 0.2s ease;
         }
-        
+
         .table-row-hover:hover {
             background-color: #f9fafb;
         }
-        
+
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
-        
+
         .fade-in {
             animation: fadeIn 0.3s ease-out forwards;
         }
-        
+
         /* Minimal icon style */
         .icon-minimal {
             stroke-width: 1.5;
@@ -46,34 +52,35 @@
             transform: translateX(-100%);
             transition: transform 0.3s ease;
         }
-        
+
         .mobile-sidebar.open {
             transform: translateX(0);
         }
     </style>
 </head>
+
 <body class="bg-white text-gray-800">
     <!-- Mobile Sidebar Overlay (hidden by default) -->
     <div class="mobile-sidebar-overlay fixed inset-0 z-40 hidden opacity-0" id="sidebarOverlay"></div>
 
-    
+
 
 
     <div>
         {{-- Header --}}
         @include('layouts.header')
-    
+
         <div class="flex min-h-screen">
             {{-- Sidebar --}}
             @include('layouts.sidebar')
-    
+
             {{-- Main Content Area --}}
             <main class="flex-1 p-6">
                 @yield('content')
             </main>
         </div>
     </div>
-    
+
 
 
     <script>
@@ -83,7 +90,7 @@
             const closeMobileSidebar = document.getElementById('closeMobileSidebar');
             const mobileSidebar = document.getElementById('mobileSidebar');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
-            
+
             function openSidebar() {
                 mobileSidebar.classList.add('open');
                 sidebarOverlay.classList.remove('hidden');
@@ -92,7 +99,7 @@
                 }, 50);
                 document.body.style.overflow = 'hidden';
             }
-            
+
             function closeSidebar() {
                 mobileSidebar.classList.remove('open');
                 sidebarOverlay.classList.add('opacity-0');
@@ -101,29 +108,29 @@
                 }, 300);
                 document.body.style.overflow = '';
             }
-            
+
             openMobileSidebar.addEventListener('click', openSidebar);
             closeMobileSidebar.addEventListener('click', closeSidebar);
             sidebarOverlay.addEventListener('click', closeSidebar);
-            
+
             // Delete modal functionality
             const deleteButtons = document.querySelectorAll('button:nth-child(3)');
             const deleteModal = document.getElementById('deleteModal');
-            
+
             deleteButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     deleteModal.classList.remove('hidden');
                 });
             });
-            
+
             // Account dropdown toggle
             const accountDropdown = document.getElementById('accountDropdown');
             const accountMenu = document.getElementById('accountMenu');
-            
+
             accountDropdown.addEventListener('click', function() {
                 accountMenu.classList.toggle('hidden');
             });
-            
+
             // Close dropdown when clicking outside
             document.addEventListener('click', function(event) {
                 if (!accountDropdown.contains(event.target)) {
@@ -132,6 +139,14 @@
             });
         });
 
+
+
+
+
+        
+
+       
     </script>
 </body>
+
 </html>

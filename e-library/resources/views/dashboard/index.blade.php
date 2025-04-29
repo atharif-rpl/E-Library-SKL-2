@@ -13,6 +13,11 @@
 </head>
 <body>
 
+    <div class="mb-8 bg-gray-50 rounded-lg p-6">
+        <h2 class="text-2xl font-medium mb-2">Welcome, <span id="userName">John Doe</span>!</h2>
+        <p class="text-gray-600">Here's an overview of your book collection and recent activity.</p>
+    </div>
+
     <main class="flex-1 p-4 md:p-6 bg-white">
         <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6 md:mb-8 space-y-4 md:space-y-0">
             <h3 class="text-xl font-medium">Book Collection</h3>
@@ -222,6 +227,7 @@
 </div>
 </div>
 
+
 <!-- Minimal Delete Modal -->
 <div class="hidden fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50" id="deleteModal">
 <div class="bg-white rounded-md max-w-md w-full mx-4 p-6 fade-in">
@@ -237,6 +243,7 @@
     </div>
 </div>
 </div>
+
 
     
 </body>

@@ -9,7 +9,7 @@
                     <path fill="#444" d="M0 11h16v3h-16v-3z"></path>
                 </svg>
             </button>
-            <h2 class="text-lg font-medium">Dashboard</h2>
+            <h2 class="text-lg font-medium">E-Library</h2>
         </div>
         <div class="flex items-center space-x-4">
             <div class="relative hidden md:block">
