@@ -36,7 +36,7 @@
                         <p class="text-xs text-gray-500">admin@example.com</p>
                     </div>
                     <div class="py-1">
-                        <a href="account.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Profile</a>
+                        <a href="{{ route('books.profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Profile</a>
                         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Settings</a>
                         <a href="login.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Logout</a>
                     </div>

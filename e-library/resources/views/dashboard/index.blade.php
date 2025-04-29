@@ -21,7 +21,7 @@
     <main class="flex-1 p-4 md:p-6 bg-white">
         <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-6 md:mb-8 space-y-4 md:space-y-0">
             <h3 class="text-xl font-medium">Book Collection</h3>
-            <a href="create.html" class="px-4 py-1.5 bg-black text-white text-sm rounded-md hover:bg-gray-800 transition-all flex items-center justify-center md:justify-start w-full md:w-auto">
+            <a href="{{ route('books.create') }}" class="px-4 py-1.5 bg-black text-white text-sm rounded-md hover:bg-gray-800 transition-all flex items-center justify-center md:justify-start w-full md:w-auto">
                 <svg class="w-4 h-4 mr-1" viewBox="0 0 24 24" class="icon-minimal" stroke="currentColor">
                     <path d="M12 5v14"></path>
                     <path d="M5 12h14"></path>

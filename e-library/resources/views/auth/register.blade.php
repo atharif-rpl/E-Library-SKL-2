@@ -76,7 +76,7 @@
             
             <div class="mt-6 text-center">
                 <p class="text-sm text-gray-500">
-                    Already have an account? <a href="login.html" class="text-black hover:underline">Sign in</a>
+                    Already have an account? <a href="{{ route('auth.login') }}" class="text-black hover:underline">Sign in</a>
                 </p>
             </div>
         </div>

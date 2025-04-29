@@ -74,7 +74,7 @@
             
             <div class="mt-6 text-center">
                 <p class="text-sm text-gray-500">
-                    Don't have an account? <a href="register.html" class="text-black hover:underline">Sign up</a>
+                    Don't have an account? <a href="{{ route('auth.register') }}" class="text-black hover:underline">Sign up</a>
                 </p>
             </div>
         </div>
