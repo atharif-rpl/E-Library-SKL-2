@@ -29,13 +29,7 @@
             </svg>
             Add Book
         </a>
-        <a href="account.html" class="flex items-center px-6 py-3 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all">
-            <svg class="w-4 h-4 mr-3" viewBox="0 0 24 24" class="icon-minimal">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-            Account
-        </a>
+        
         <a href="#" class="flex items-center px-6 py-3 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all">
             <svg class="w-4 h-4 mr-3" viewBox="0 0 24 24" class="icon-minimal">
                 <circle cx="12" cy="12" r="3"></circle>
