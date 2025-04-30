@@ -139,6 +139,46 @@
             });
         });
 
+           // Delete modal functionality
+           const deleteButton = document.querySelector('button.bg-red-50');
+            const deleteModal = document.getElementById('deleteModal');
+            const cancelDelete = document.getElementById('cancelDelete');
+            const confirmDelete = document.getElementById('confirmDelete');
+            
+            deleteButton.addEventListener('click', function() {
+                deleteModal.classList.remove('hidden');
+            });
+            
+            cancelDelete.addEventListener('click', function() {
+                deleteModal.classList.add('hidden');
+            });
+            
+            confirmDelete.addEventListener('click', function() {
+                // In a real app, this would send a request to delete the book
+                deleteModal.classList.add('hidden');
+                // Redirect to the books list after deletion
+                window.location.href = 'index.html';
+            });
+            
+        
+            
+            // Star rating functionality
+            const ratingButtons = document.querySelectorAll('form button');
+            
+            ratingButtons.forEach((button, index) => {
+                button.addEventListener('click', function() {
+                    ratingButtons.forEach((btn, i) => {
+                        if (i <= index) {
+                            btn.classList.add('text-yellow-400');
+                            btn.classList.remove('text-gray-300');
+                        } else {
+                            btn.classList.add('text-gray-300');
+                            btn.classList.remove('text-yellow-400');
+                        }
+                    });
+                });
+            });
+
 
 
 
