@@ -12,7 +12,7 @@
         <h1 class="text-xl font-medium">Books</h1>
     </div>
     <nav class="mt-2">
-        <a href="{{ route('dashboard.index') }}" class="flex items-center px-6 py-3 text-sm font-medium text-gray-900 bg-gray-50">
+        <a href="{{ route('books.index') }}" class="flex items-center px-6 py-3 text-sm font-medium text-gray-900 bg-gray-50">
             <svg class="w-4 h-4 mr-3" viewBox="0 0 24 24" class="icon-minimal">
                 <rect x="3" y="3" width="7" height="9" rx="1"></rect>
                 <rect x="14" y="3" width="7" height="5" rx="1"></rect>
@@ -68,7 +68,7 @@
         </button>
     </div>
     <nav class="mt-2">
-        <a href="{{ route('dashboard.index') }}" class="flex items-center px-6 py-3 text-sm font-medium text-gray-900 bg-gray-50">
+        {{-- <a href="{{ route('dashboard.index') }}" class="flex items-center px-6 py-3 text-sm font-medium text-gray-900 bg-gray-50"> --}}
             <svg class="w-4 h-4 mr-3" viewBox="0 0 24 24" class="icon-minimal">
                 <rect x="3" y="3" width="7" height="9" rx="1"></rect>
                 <rect x="14" y="3" width="7" height="5" rx="1"></rect>

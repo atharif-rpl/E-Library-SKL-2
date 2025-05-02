@@ -75,7 +75,7 @@
                 
                 <div class="p-6 border-t border-gray-100 flex justify-end">
                     <div class="flex gap-3">
-                        <a href="account.html" class="px-4 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-md hover:bg-gray-200 transition-all">
+                        <a href="{{ route('books.profile') }}" class="px-4 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-md hover:bg-gray-200 transition-all">
                             Cancel
                         </a>
                         <button type="submit" class="px-4 py-1.5 bg-black text-white text-sm rounded-md hover:bg-gray-800 transition-all">
