@@ -21,5 +21,8 @@ class Books extends Model
         'publication',
         'isbn',
         'description',
+        'pages',
+        'language',
+        'tags',
     ];
 }
