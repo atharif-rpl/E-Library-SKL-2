@@ -29,7 +29,7 @@
             </svg>
             Add Book
         </a>
-        
+
         <a href="#" class="flex items-center px-6 py-3 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all">
             <svg class="w-4 h-4 mr-3" viewBox="0 0 24 24" class="icon-minimal">
                 <circle cx="12" cy="12" r="3"></circle>
@@ -68,7 +68,7 @@
         </button>
     </div>
     <nav class="mt-2">
-        {{-- <a href="{{ route('dashboard.index') }}" class="flex items-center px-6 py-3 text-sm font-medium text-gray-900 bg-gray-50"> --}}
+        <a href="{{ route('books.index') }}" class="flex items-center px-6 py-3 text-sm font-medium text-gray-900 bg-gray-50">
             <svg class="w-4 h-4 mr-3" viewBox="0 0 24 24" class="icon-minimal">
                 <rect x="3" y="3" width="7" height="9" rx="1"></rect>
                 <rect x="14" y="3" width="7" height="5" rx="1"></rect>
@@ -86,13 +86,7 @@
             </svg>
             Add Book
         </a>
-        <a href="account.html" class="flex items-center px-6 py-3 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all">
-            <svg class="w-4 h-4 mr-3" viewBox="0 0 24 24" class="icon-minimal">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-            Account
-        </a>
+
         <a href="#" class="flex items-center px-6 py-3 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all">
             <svg class="w-4 h-4 mr-3" viewBox="0 0 24 24" class="icon-minimal">
                 <circle cx="12" cy="12" r="3"></circle>
