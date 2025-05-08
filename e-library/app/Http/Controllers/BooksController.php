@@ -4,8 +4,11 @@ namespace App\Http\Controllers; // Mendefinisikan namespace untuk controller ini
 
 use Illuminate\Support\Facades\Validator; // Mengimpor Facade Validator (meskipun validate() di Request digunakan di sini, Validator bisa digunakan untuk validasi manual).
 use Illuminate\Http\Request; // Mengimpor class Request, merepresentasikan request HTTP yang masuk.
-use App\Models\Books; // Mengimpor model Books untuk berinteraksi dengan tabel 'books'.
+use App\Models\Book; // Mengimpor model Book untuk berinteraksi dengan tabel 'books'.
 use Illuminate\Support\Facades\Storage; // Mengimpor Facade Storage jika Anda berencana menyimpan file (misal: cover_image).
+use Illuminate\View\View; // Mengimpor View untuk type hinting
+use Illuminate\Http\RedirectResponse; // Mengimpor RedirectResponse untuk type hinting
+
 
 /**
  * Kelas BooksController bertanggung jawab untuk menangani request terkait manajemen buku.
@@ -20,43 +23,23 @@ class BooksController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(): View
     {
-        // Mengambil semua data buku dari tabel 'books' menggunakan model Books.
-        $books = Books::all();
+        // Mengambil semua data buku dari tabel 'books' menggunakan model Book.
+        $books = Book::all();
         // Mengembalikan view 'books.index' dan menyertakan data buku.
         // compact('books') adalah cara singkat untuk ['books' => $books].
         return view('books.index', compact('books'));
     }
 
-    /**
-     * Menampilkan halaman profil (placeholder, belum terkait buku secara langsung).
-     *
-     * @return \Illuminate\View\View
-     */
-    public function profile()
-    {
-        // Mengembalikan view 'books.profile'.
-        return view('books.profile');
-    }
-
-    /**
-     * Menampilkan halaman edit profil (placeholder, belum terkait buku secara langsung).
-     *
-     * @return \Illuminate\View\View
-     */
-    public function editprofile()
-    {
-        // Mengembalikan view 'books.editprofile'.
-        return view('books.editprofile');
-    }
+    // Metode profile() dan editprofile() telah dipindahkan ke AuthController.
 
     /**
      * Menampilkan form untuk menambah buku baru.
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(): View
     {
         // Mengembalikan view 'books.create' yang berisi form tambah buku.
         return view ('books.create');
@@ -68,7 +51,7 @@ class BooksController extends Controller
      * @param  \Illuminate\Http\Request  $request Objek request yang berisi data dari form.
      * @return \Illuminate\Http\RedirectResponse Mengarahkan kembali ke halaman daftar buku.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
        // Melakukan validasi data yang diterima dari request.
        // Jika validasi gagal, Laravel akan otomatis mengarahkan kembali
@@ -89,8 +72,8 @@ class BooksController extends Controller
 
        // Membuat record buku baru di database menggunakan data dari request.
        // $request->all() mengembalikan array semua input dari request.
-       // Ini aman karena model Books memiliki $fillable yang mendefinisikan kolom yang diizinkan.
-       Books::create($request->all());
+       // Ini aman karena model Book memiliki $fillable yang mendefinisikan kolom yang diizinkan.
+       Book::create($request->all());
 
        // Mengarahkan kembali user ke halaman daftar buku setelah berhasil menyimpan.
        // ->with('success', ...) menambahkan pesan 'success' ke flash session,
@@ -102,10 +85,10 @@ class BooksController extends Controller
     /**
      * Menampilkan detail buku tertentu.
      *
-     * @param  \App\Models\Books  $book Instance model Books yang ditemukan berdasarkan route model binding.
+     * @param  \App\Models\Book  $book Instance model Book yang ditemukan berdasarkan route model binding.
      * @return \Illuminate\View\View
      */
-    public function show(Books $book)
+    public function show(Book $book): View
     {
         // Mengembalikan view 'books.show' dan menyertakan instance model buku.
         return view('books.show', compact('book'));
@@ -121,10 +104,10 @@ class BooksController extends Controller
     /**
      * Menampilkan form untuk mengedit buku tertentu.
      *
-     * @param  \App\Models\Books  $book Instance model Books yang ditemukan berdasarkan route model binding.
+     * @param  \App\Models\Book  $book Instance model Book yang ditemukan berdasarkan route model binding.
      * @return \Illuminate\View\View
      */
-    public function edit(Books $book)
+    public function edit(Book $book): View
     {
         // Mengembalikan view 'books.update' (atau 'books.edit', tergantung nama file view Anda)
         // dan menyertakan instance model buku yang akan diedit.
@@ -135,10 +118,10 @@ class BooksController extends Controller
      * Memperbarui data buku tertentu di database.
      *
      * @param  \Illuminate\Http\Request  $request Objek request yang berisi data dari form.
-     * @param  \App\Models\Books  $book Instance model Books yang ditemukan berdasarkan route model binding.
+     * @param  \App\Models\Book  $book Instance model Book yang ditemukan berdasarkan route model binding.
      * @return \Illuminate\Http\RedirectResponse Mengarahkan kembali ke halaman daftar buku.
      */
-    public function update(Request $request, Books $book)
+    public function update(Request $request, Book $book): RedirectResponse
     {
         // Melakukan validasi data yang diterima dari request, sama seperti metode store.
         $request->validate([
@@ -157,7 +140,7 @@ class BooksController extends Controller
 
         // Memperbarui record buku di database menggunakan data dari request.
         // $request->all() mengembalikan array semua input dari request.
-        // Ini aman karena model Books memiliki $fillable yang mendefinisikan kolom yang diizinkan.
+        // Ini aman karena model Book memiliki $fillable yang mendefinisikan kolom yang diizinkan.
         $book->update($request->all());
 
         // Mengarahkan kembali user ke halaman daftar buku setelah berhasil memperbarui.
@@ -169,10 +152,10 @@ class BooksController extends Controller
     /**
      * Menghapus buku tertentu dari database.
      *
-     * @param  \App\Models\Books  $book Instance model Books yang ditemukan berdasarkan route model binding.
+     * @param  \App\Models\Book  $book Instance model Book yang ditemukan berdasarkan route model binding.
      * @return \Illuminate\Http\RedirectResponse Mengarahkan kembali ke halaman daftar buku.
      */
-    public function destroy(Books $book)
+    public function destroy(Book $book): RedirectResponse
     {
         // Menghapus record buku dari database.
         $book->delete();

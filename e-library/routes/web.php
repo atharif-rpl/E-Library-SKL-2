@@ -3,7 +3,9 @@
 use Illuminate\Support\Facades\Route; // Mengimpor Facade Route untuk mendefinisikan rute.
 use App\Http\Controllers\BooksController; // Mengimpor BooksController.
 use App\Http\Controllers\DashboardController; // Mengimpor DashboardController.
-use App\Http\Controllers\AuthController; // Mengimpor AuthController untuk rute otentikasi.
+use App\Http\Controllers\AuthController; // Mengimpor AuthController untuk rute otentikasi dan profil user.
+// Jika Anda memiliki UserProfileController yang terpisah, Anda mungkin perlu mengimpornya di sini:
+// use App\Http\Controllers\UserProfileController;
 
 // Pastikan Anda memiliki middleware 'admin' terdaftar di app/Http/Kernel.php
 // Jika Anda menggunakan RoleMiddleware yang kita buat, aliasnya mungkin 'role'.
@@ -52,7 +54,7 @@ Route::middleware('auth')->group(function () {
     // Ini adalah halaman default setelah user login (jika tidak ada intended URL).
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Rute untuk Menampilkan Daftar Buku (Bisa diakses oleh semua user yang login)
+    // Rute Buku (Index dan Show bisa diakses semua user yang login)
     // Diletakkan di dalam grup 'auth' tetapi di luar grup 'admin' di bawahnya.
     Route::get('/books', [BooksController::class, 'index'])->name('books.index');
 
@@ -63,6 +65,14 @@ Route::middleware('auth')->group(function () {
     // Diletakkan di sini (di dalam grup 'auth' tapi di luar grup 'admin')
     // karena semua user yang login bisa melihat detail buku.
     Route::get('/books/{book}', [BooksController::class, 'show'])->name('books.show');
+
+    // Rute Profil User (Memerlukan Autentikasi, Bisa Diakses Semua User yang Login)
+    // Dipindahkan ke sini, di dalam grup 'auth' tapi di luar grup 'admin'.
+    // Asumsi rute ini untuk user yang login melihat/mengedit profilnya sendiri.
+    // Sekarang mengarah ke AuthController.
+    Route::get('books/profile', [AuthController::class, 'profile'])->name('books.profile');
+    Route::get('books/editprofile', [AuthController::class, 'editprofile'])->name('books.editprofile');
+
 
     // Grup Rute Khusus Admin (Memerlukan Role Admin)
     // Grup ini menggunakan middleware 'admin'. Pastikan middleware ini terdaftar
@@ -98,16 +108,7 @@ Route::middleware('auth')->group(function () {
         // Menggunakan metode DELETE untuk operasi penghapusan.
         Route::delete('/books/{book}', [BooksController::class, 'destroy'])->name('books.destroy');
 
-        // Catatan: Rute 'profile' dan 'editprofile' yang ada di kode asli Anda (dan di komentar di bawah)
-        // sepertinya tidak terkait langsung dengan BooksController dalam konteks CRUD buku.
-        // Jika ini adalah rute untuk profil pengguna, sebaiknya diletakkan di luar grup 'admin'
-        // atau di grup terpisah jika hanya untuk user biasa. Saya hapus duplikasinya di bawah.
-        // Jika BooksController memang menangani profil user (tidak umum),
-        // Anda bisa tambahkan di sini jika hanya admin yang bisa mengaksesnya,
-        // atau di grup 'auth' di luar grup 'admin' jika user bisa mengakses profilnya sendiri.
-        // Route::get('books/profile', [BooksController::class, 'profile'])->name('books.profile');
-        // Route::get('books/editprofile', [BooksController::class, 'editprofile'])->name('books.editprofile');
-    });
+    }); // Akhir dari grup middleware 'admin'
 
 }); // Akhir dari grup middleware 'auth'
 
@@ -122,13 +123,3 @@ Route::redirect('/', '/books');
 Route::fallback(function () {
     return response()->view('errors.404', [], 404); // Mengubah status code ke 404
 });
-
-// Catatan: Rute-rute duplikat di bagian bawah kode asli Anda sudah dihapus
-// karena sudah dimasukkan ke dalam grup yang sesuai di atas.
-
-// Rute profile yang sepertinya terpisah dan tidak dalam grup 'auth' atau 'admin'.
-// Jika ini adalah rute profil user (bukan buku), sebaiknya diletakkan di grup 'auth'.
-// Jika hanya admin yang bisa akses profil user lain, bisa di dalam grup 'admin'.
-// Jika user bisa akses profilnya sendiri, di dalam grup 'auth'.
-Route::get('/books/profile', [BooksController::class, 'profile'])->name('books.profile'); // Rute ini masih ada di luar grup
-

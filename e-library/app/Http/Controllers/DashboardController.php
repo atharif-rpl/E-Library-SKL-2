@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers; // Mendefinisikan namespace untuk controller ini.
 
-use App\Models\Books; // Mengimpor model Books untuk berinteraksi dengan tabel 'books'.
+use App\Models\Book; // Mengimpor model Books untuk berinteraksi dengan tabel 'books'.
 use App\Models\User; // Mengimpor model User untuk berinteraksi dengan tabel 'users'.
 use Illuminate\Http\Request; // Mengimpor class Request (meskipun tidak digunakan secara langsung di metode index, ini adalah impor umum).
 
@@ -41,7 +41,7 @@ class DashboardController extends Controller // Memperluas kelas dasar Controlle
     public function index()
     {
         // Menghitung total jumlah buku dalam tabel 'books'.
-        $totalBooks = Books::count();
+        $totalBooks = Book::count();
 
         // Menghitung total jumlah user dengan role 'user'.
         // User::where('role', 'user') membuat query untuk memilih user di mana kolom 'role' bernilai 'user'.
@@ -52,7 +52,7 @@ class DashboardController extends Controller // Memperluas kelas dasar Controlle
         // Books::latest() mengurutkan hasil berdasarkan kolom 'created_at' secara descending.
         // take(5) membatasi hasil hanya 5 record pertama.
         // get() menjalankan query dan mengembalikan koleksi hasil.
-        $books = Books::latest()->take(5)->get();
+        $books = Book::latest()->take(5)->get();
 
         // Mengembalikan view 'dashboard.index'.
         // compact('totalBooks', 'totalUsers', 'books') adalah cara singkat untuk

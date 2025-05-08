@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne; // Mengimpor kelas HasOne unt
  * Kelas Books merepresentasikan model untuk tabel 'books' dalam database.
  * Model ini menggunakan Eloquent ORM Laravel untuk berinteraksi dengan database.
  */
-class Books extends Model
+class Book extends Model
 {
     use HasFactory; // Menggunakan trait HasFactory untuk memungkinkan pembuatan instance model menggunakan factory.
 

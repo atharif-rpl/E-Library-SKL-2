@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User; // Pastikan ini mengarah ke model User Anda
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; // Untuk otentikasi
-use Illuminate\Support\Facades\Hash; // Untuk hashing password
-use Illuminate\Support\Facades\Validator; // Untuk validasi
-use Illuminate\Validation\Rules\Password; // Untuk validasi password modern
-use Illuminate\Http\RedirectResponse; // Untuk type hinting redirect
-use Illuminate\View\View; // Untuk type hinting view
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class AuthController extends Controller
 {
@@ -19,7 +17,6 @@ class AuthController extends Controller
      */
     public function showLoginForm(): View
     {
-        // Mengembalikan view untuk form login
         return view('auth.login');
     }
 
@@ -28,34 +25,21 @@ class AuthController extends Controller
      */
     public function login(Request $request): RedirectResponse
     {
-        // 1. Validasi input login
         $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        // Ambil kredensial (email dan password) dari request
         $credentials = $request->only('email', 'password');
 
-        // Coba otentikasi pengguna
-        // Auth::attempt akan mencocokkan email dan password (setelah di-hash) di database
-        // Parameter kedua ($request->boolean('remember')) mengelola fitur "ingat saya"
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
-            // Jika otentikasi berhasil:
-            // Regenerasi ID sesi untuk mencegah serangan fiksasi sesi
             $request->session()->regenerate();
-
-            // Arahkan ke halaman tujuan setelah login.
-            // intended() akan mengarahkan ke URL yang terakhir kali dicoba sebelum login,
-            // atau ke '/dashboard' jika tidak ada URL tujuan sebelumnya.
-            return redirect()->intended('/dashboard'); // Ganti '/dashboard' jika rute tujuan default Anda berbeda
+            return redirect()->intended('/dashboard');
         }
 
-        // Jika otentikasi gagal:
-        // Kembali ke halaman login dengan pesan error dan input email sebelumnya
         return back()->withErrors([
-            'email' => 'Kredensial yang diberikan tidak cocok dengan data kami.', // Pesan error bisa disesuaikan
-        ])->onlyInput('email'); // Hanya pertahankan nilai input email yang salah
+            'email' => 'Kredensial yang diberikan tidak cocok dengan data kami.',
+        ])->onlyInput('email');
     }
 
     /**
@@ -63,7 +47,6 @@ class AuthController extends Controller
      */
     public function showRegistrationForm(): View
     {
-        // Mengembalikan view untuk form registrasi
         return view('auth.register');
     }
 
@@ -72,30 +55,35 @@ class AuthController extends Controller
      */
     public function register(Request $request): RedirectResponse
     {
-        // 1. Validasi input registrasi
-        // Untuk form registrasi publik, kita tidak meminta input role dari user,
-        // melainkan menetapkan role default ('user') setelah validasi berhasil.
+        // Validasi input registrasi
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'], // Pastikan email unik di tabel users
-            'password' => ['required', 'confirmed', Password::defaults()], // 'confirmed' memastikan ada input password_confirmation & cocok
-            'role' => 'required|string|in:user,admin'                                                              // Password::defaults() menerapkan aturan password minimum Laravel
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'confirmed', Password::defaults()],
+            // Menggunakan 'sometimes' jika field role opsional di form.
+            // Jika role selalu ada di form (dropdown), gunakan 'required'.
+            // Validasi 'in' memastikan nilai yang diterima hanya 'user' atau 'admin'.
+            'role' => ['sometimes', 'string', 'in:user,admin']
         ]);
 
-        // 2. Buat user baru
-        // Menggunakan data TERVALIDASI ($request->...) untuk membuat user
+        // Buat user baru
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password), // WAJIB HASH PASSWORD (Atau pastikan di-cast 'hashed' di model User)
-            'role' => $request->role, // <-- Atur role default 'user' di sini untuk user yang mendaftar sendiri
+            // Menghash password. Jika menggunakan casts 'hashed' di model (Laravel 10+),
+            // Hash::make() di sini bisa dihilangkan, cukup gunakan $request->password.
+            'password' => Hash::make($request->password),
+            // Mengambil nilai role dari request.
+            // Menggunakan operator null coalescing (??) untuk memberikan nilai default 'user'
+            // jika $request->role adalah null (misalnya, field role tidak ada di form atau kosong).
+            'role' => $request->role ?? 'user',
         ]);
 
-        // 3. Login user secara otomatis setelah registrasi (opsional, tapi umum)
+        // Login user secara otomatis setelah registrasi
         Auth::login($user);
 
-        // 4. Redirect ke halaman setelah registrasi berhasil (misal: dashboard)
-        return redirect('/dashboard'); // Ganti '/dashboard' jika rute tujuan Anda berbeda
+        // Redirect ke dashboard dengan pesan sukses
+        return redirect('/dashboard')->with('success', 'Registrasi berhasil! Selamat datang!');
     }
 
     /**
@@ -103,19 +91,35 @@ class AuthController extends Controller
      */
     public function logout(Request $request): RedirectResponse
     {
-        // Lakukan proses logout
         Auth::logout();
-
-        // Invalidasi sesi user saat ini
         $request->session()->invalidate();
-
-        // Regenerasi token CSRF untuk sesi baru
         $request->session()->regenerateToken();
-
-        // Arahkan ke halaman setelah logout (misal: halaman utama atau login)
-        return redirect('/'); // Ganti '/' jika rute tujuan setelah logout Anda berbeda
+        return redirect('/');
     }
 
-    // Anda bisa hapus metode resource lainnya (create, store, show, edit, update, destroy)
-    // jika controller ini hanya digunakan untuk autentikasi.
+    /**
+     * Menampilkan halaman profil user yang sedang login.
+     */
+    public function profile(): View
+    {
+        // Anda bisa mengambil data user yang sedang login di sini jika perlu
+        // $user = Auth::user();
+        // return view('auth.profile', compact('user'));
+
+        // Mengembalikan view 'books.profile' sesuai kode asli Anda
+        return view('books.profile');
+    }
+
+    /**
+     * Menampilkan form untuk mengedit profil user yang sedang login.
+     */
+    public function editprofile(): View
+    {
+        // Anda bisa mengambil data user yang sedang login di sini jika perlu
+        // $user = Auth::user();
+        // return view('auth.editprofile', compact('user'));
+
+        // Mengembalikan view 'books.editprofile' sesuai kode asli Anda
+        return view('books.editprofile');
+    }
 }
