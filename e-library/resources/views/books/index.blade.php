@@ -37,12 +37,14 @@
                                 <td class="px-4 py-3">
                                     <div class="flex space-x-3 text-sm">
                                         <a href="{{ route('books.show', $book->id) }}" class="text-gray-400 hover:text-gray-600 transition-all">👁️</a>
+                                        @if(Auth::user()->isadmin())
                                         <a href="{{ route('books.edit', $book->id) }}" class="text-gray-400 hover:text-gray-600 transition-all">✏️</a>
                                         <form action="{{ route('books.destroy', $book->id) }}" method="POST" onsubmit="return confirm('Yakin hapus?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-gray-400 hover:text-red-600 transition-all">🗑️</button>
                                         </form>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>

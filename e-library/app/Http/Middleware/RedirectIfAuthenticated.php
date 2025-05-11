@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware; // Mendefinisikan namespace untuk middleware ini.
 
-use App\Providers\RouteServiceProvider; // Mengimpor RouteServiceProvider (meskipun tidak secara langsung digunakan di sini, seringkali terkait dengan redirect setelah login/logout).
+// use App\Providers\RouteServiceProvider; // Mengimpor RouteServiceProvider (meskipun tidak secara langsung digunakan di sini, seringkali terkait dengan redirect setelah login/logout).
 use Closure; // Mengimpor class Closure, yang digunakan untuk meneruskan request ke middleware berikutnya atau controller.
 use Illuminate\Http\Request; // Mengimpor class Request, merepresentasikan request HTTP yang masuk.
 use Illuminate\Support\Facades\Auth; // Mengimpor Facade Auth untuk otentikasi.
@@ -36,6 +36,8 @@ class RedirectIfAuthenticated
             if (Auth::guard($guard)->check()) {
                 // Jika user sudah login dengan guard ini, arahkan mereka ke halaman dashboard.
                 // route('dashboard') akan menghasilkan URL untuk named route 'dashboard'.
+                // Anda bisa mengganti 'dashboard' dengan rute lain jika perlu,
+                // atau menggunakan RouteServiceProvider::HOME jika dikonfigurasi di sana.
                 return redirect()->route('dashboard');
             }
         }

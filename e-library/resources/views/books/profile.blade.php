@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    
+
 
 <main class="flex-1 p-4 md:p-6 bg-white">
     <div class="max-w-3xl mx-auto">
@@ -14,20 +14,20 @@
                 Edit Profile
             </a>
         </div>
-        
+
         <div class="bg-white rounded-md border border-gray-100 overflow-hidden">
             <div class="p-6 flex flex-col md:flex-row items-start gap-6">
                 <div class="flex-shrink-0">
                     <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User avatar" class="w-24 h-24 rounded-full object-cover">
                 </div>
                 <div class="flex-1">
-                    <h4 class="text-lg font-medium">John Doe</h4>
-                    <p class="text-gray-500 text-sm">Administrator</p>
-                    
+                    <h4 class="text-lg font-medium">{{ Auth::user()->name }}</h4>
+                    <p class="text-gray-500 text-sm">{{ Auth::user()->role }}</p>
+
                     <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <p class="text-xs text-gray-500">Email</p>
-                            <p class="text-sm">admin@example.com</p>
+                            <p class="text-sm">{{ Auth::user()->email }}</p>
                         </div>
                         <div>
                             <p class="text-xs text-gray-500">Phone</p>
@@ -35,20 +35,20 @@
                         </div>
                         <div>
                             <p class="text-xs text-gray-500">Role</p>
-                            <p class="text-sm">Administrator</p>
+                            <p class="text-sm">{{ Auth::user()->role }}</p>
                         </div>
                         <div>
                             <p class="text-xs text-gray-500">Member Since</p>
-                            <p class="text-sm">January 15, 2023</p>
+                            <p class="text-sm">{{ Auth::user()->created_at }}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <div class="mt-8">
             <h4 class="text-lg font-medium mb-4">Account Activity</h4>
-            
+
             <div class="bg-white rounded-md border border-gray-100 overflow-hidden">
                 <div class="divide-y divide-gray-100">
                     <div class="p-4">

@@ -89,7 +89,6 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
-    
 
     // Anda bisa tambahkan metode atau relasi lain di sini jika diperlukan, misalnya:
     // public function posts(): HasMany { ... } // Relasi one-to-many ke model Post.
